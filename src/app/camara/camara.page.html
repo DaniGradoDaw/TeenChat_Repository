@@ -1,0 +1,32 @@
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <ion-button expand="block" color="primary" (click)="takePicture()">Hacer Foto</ion-button>
+    <ion-button expand="block" color="secondary" (click)="selectImage()">Galería</ion-button>
+    <ion-button expand="block" color="tertiary" (click)="pickFiles()">Selector de Archivos</ion-button>
+
+    <div *ngIf="selectedImage" class="ion-margin-top" style="text-align: center;">
+      <p>Vista previa:</p>
+      <img [src]="selectedImage" style="width: 100%; max-height: 400px; border-radius: 15px; border: 2px solid #ccc; object-fit: cover;" />
+    </div>
+    selectedFiles: {{ selectedFiles | json }}
+   <div *ngFor="let file of selectedFiles">
+
+     <div *ngIf="file" class="ion-margin-top" style="text-align: center; background: #f4f4f4; padding: 10px; border-radius: 8px;">
+      <p><strong>Nombre:</strong> {{ file?.name }}</p>
+      <p><strong>Tipo:</strong> {{ file?.type }}</p>
+      <p><strong>Tamaño:</strong> {{ (file?.size / 1024).toFixed(2) }} KB</p>
+      <img [src]="file?.data" style="width: 100%; max-height: 400px; border-radius: 15px; border: 2px solid #ccc; object-fit: cover;" />
+
+    </div>
+   </div> 
+    <div *ngIf="selectedFiles" class="ion-margin-top" style="text-align: center; background: #f4f4f4; padding: 10px; border-radius: 8px;">
+      <p><strong>Nombre:</strong> {{ selectedFiles[0]?.name }}</p>
+      <p><strong>Tipo:</strong> {{ selectedFiles[0]?.type }}</p>
+      <p><strong>Tamaño:</strong> {{ (selectedFiles[0]?.size / 1024).toFixed(2) }} KB</p>
+      <img [src]="selectedFiles[0]?.data" style="width: 100%; max-height: 400px; border-radius: 15px; border: 2px solid #ccc; object-fit: cover;" />
+
+    </div>
+
+    <ion-button expand="block" fill="clear" color="medium" (click)="tab1()">Volver</ion-button>
+  </div>
+</ion-content>

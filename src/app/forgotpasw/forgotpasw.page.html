@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Recuperar Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <div class="ion-text-center ion-margin-top">
+    <ion-icon name="lock-open-outline" style="font-size: 80px; color: var(--ion-color-medium);"></ion-icon>
+    
+    <h2>¿Olvidaste tu contraseña?</h2>
+    <p class="ion-text-medium">
+      No te preocupes. Escribe tu correo electrónico y te enviaremos un enlace para restablecerla.
+    </p>
+  </div>
+
+  <div class="ion-margin-top">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+        <ion-input 
+          label="Correo electrónico" 
+          label-placement="floating" 
+          type="email" 
+          placeholder="ejemplo@correo.com"
+          [(ngModel)]="emailRecuperacion">
+        </ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" class="ion-margin-top" (click)="enviarCorreo()">
+      Enviar enlace de recuperación
+    </ion-button>
+  </div>
+
+</ion-content>

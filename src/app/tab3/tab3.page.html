@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list lines="full">
+    <ion-item>
+      <ion-input 
+        label="Nombre completo" 
+        label-placement="floating" 
+        [(ngModel)]="datosRegistro.nombre">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input 
+        label="Correo electrónico" 
+        label-placement="floating" 
+        [(ngModel)]="datosRegistro.email">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input 
+        label="Contraseña" 
+        label-placement="floating" 
+        type="password" 
+        [(ngModel)]="datosRegistro.password">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-margin-top">
+    <ion-button expand="block" color="secondary" (click)="registro()">
+      Crear cuenta
+    </ion-button>
+    <ion-button expand="block" fill="clear" color="medium" (click)="tab1()">
+      Volver
+    </ion-button>
+  </div>
+</ion-content>
