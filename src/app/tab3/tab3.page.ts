@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core'; // Añadimos inject aquí
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+// Importamos Auth para crear el usuario también en el sistema de login
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth'; 
+import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-tab3',
@@ -11,6 +14,10 @@ import { CommonModule } from '@angular/common';
   imports: [IonList, IonItem, IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, FormsModule, CommonModule]
 })
 export class Tab3Page { 
+
+  // Inyectamos los servicios correctamente
+  private firestore = inject(Firestore);
+  private auth = inject(Auth);
 
   datosRegistro = {
     nombre: '',
@@ -21,18 +28,29 @@ export class Tab3Page {
   constructor(private modalCtrl: ModalController) {}
 
   async registro() {
-    console.log('Botón pulsado. Datos:', this.datosRegistro);
+    try {
+      // 1. Creamos el usuario en Firebase Authentication (opcional pero recomendado)
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth, 
+        this.datosRegistro.email, 
+        this.datosRegistro.password
+      );
 
-    // Quitamos espacios por si acaso con .trim()
-    const nom = this.datosRegistro.nombre.trim();
-    const mail = this.datosRegistro.email.trim();
-    const pass = this.datosRegistro.password.trim();
+      // 2. Guardamos los datos adicionales en la colección 'usuarios' de Firestore
+      const col = collection(this.firestore, 'usuarios');
+      await addDoc(col, { 
+        uid: userCredential.user.uid, // ID único del usuario
+        nombre: this.datosRegistro.nombre, 
+        email: this.datosRegistro.email,
+        fechaCreacion: new Date() 
+      });
 
-    if (nom === 'Alfonso' && mail === 'af@gmail' && pass === '1234') {
-      alert('¡Registro exitoso!');
-      await this.modalCtrl.dismiss();
-    } else {
-      alert('Los datos no coinciden.\nEscribiste: ' + nom + ' / ' + mail + ' / ' + pass);
+      console.log('¡Usuario registrado y guardado en base de datos!');
+      this.tab1(); // Cerramos el modal tras el éxito
+
+    } catch (error) {
+      console.error('Error al registrar:', error);
+      alert('Error: ' + error);
     }
   }
 

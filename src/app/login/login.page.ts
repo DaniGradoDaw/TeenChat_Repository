@@ -3,11 +3,12 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonInput, IonIt
 import { ModalController } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router'; // <--- 1. IMPORTANTE: Importar Router
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth'; 
+import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-tab2',
-  templateUrl: 'login.page.html', // Asegúrate de que este nombre sea correcto
+  templateUrl: 'login.page.html', 
   standalone: true,
   imports: [IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonList, FormsModule, CommonModule]
 })
@@ -18,24 +19,23 @@ export class Tab2Page {
     password: ''
   };
 
-  // 2. IMPORTANTE: Añadir 'private router: Router' al constructor
-  constructor(private modalCtrl: ModalController, private router: Router) {}
+  constructor(private modalCtrl: ModalController, private auth: Auth) {}
 
-  async intentarLogin() {
-    // Validamos los datos (puedes cambiar 'af@gmail' por lo que quieras)
-    if (this.loginData.email === 'af@gmail' && this.loginData.password === '1234') {
-      
-      console.log('Login correcto. Redirigiendo...');
-      
-      // Cerramos el modal de login primero
-      await this.modalCtrl.dismiss();
+  async login() {
+    try {
+      // Intentamos iniciar sesión con Firebase Authentication
+      const userCredential = await signInWithEmailAndPassword(
+        this.auth, 
+        this.loginData.email, 
+        this.loginData.password
+      );
 
-      // 3. IMPORTANTE: Navegar a la página 'usuario'
-      // Esto fallará hasta que crees la página, pero el código ya está listo.
-      this.router.navigate(['/usuario']); 
+      console.log('¡Usuario registrado e iniciado sesión!');
+      this.tab1(); // Cerramos el modal tras el éxito
 
-    } else {
-      alert('Usuario o contraseña incorrectos');
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      alert('Error: ' + error);
     }
   }
 
