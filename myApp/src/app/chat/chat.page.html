@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" [icon]="arrowBack"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="conversation">{{ conversation.userName }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="messages-container" *ngIf="conversation">
+    <div
+      *ngFor="let message of conversation.messages"
+      [ngClass]="{ 'message-sent': message.userId === 'currentUser', 'message-received': message.userId !== 'currentUser' }"
+      class="message">
+      <div class="message-bubble">
+        <p class="message-text">{{ message.content }}</p>
+        <small class="message-time">{{ formatTime(message.timestamp) }}</small>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="conversation">
+  <ion-toolbar>
+    <ion-input
+      placeholder="Escribir mensaje..."
+      [(ngModel)]="messageText"
+      (keyup.enter)="sendMessage()"
+      class="message-input">
+    </ion-input>
+    <ion-button
+      slot="end"
+      fill="clear"
+      [disabled]="!messageText.trim()"
+      (click)="sendMessage()">
+      <ion-icon slot="icon-only" [icon]="send"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
