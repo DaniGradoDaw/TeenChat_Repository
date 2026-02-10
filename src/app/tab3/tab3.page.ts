@@ -3,7 +3,6 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonInput, IonIt
 import { ModalController } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-// Importamos Auth para crear el usuario también en el sistema de login
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth'; 
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 
