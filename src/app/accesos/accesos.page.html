@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <title>Historial de Accesos</title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="ion-margin-bottom">
+    <ion-button expand="block" (click)="registrarAcceso()">
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      Registrar Acceso Actual
+    </ion-button>
+    
+    <ion-button expand="block" fill="outline" (click)="cargarHistorial()">
+      <ion-icon name="refresh-outline" slot="start"></ion-icon>
+      Actualizar Lista
+    </ion-button>
+    
+    <ion-button expand="block" fill="clear" color="medium" (click)="tab1()">
+      Volver
+    </ion-button>
+  </div>
+
+  <ion-list-header>
+    <ion-label>Últimos 10 registros</ion-label>
+  </ion-list-header>
+
+  <ion-list>
+    <ion-item *ngIf="listaAccesos.length === 0">
+      <ion-label class="ion-text-center">
+        <p>No hay accesos registrados todavía.</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngFor="let acceso of listaAccesos">
+      <ion-icon name="time-outline" slot="start" color="medium"></ion-icon>
+      <ion-label>
+        <h2>{{ acceso.fecha }}</h2>
+        <p>Latitud: {{ acceso.lat | number:'1.4-4' }}</p>
+        <p>Longitud: {{ acceso.lng | number:'1.4-4' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

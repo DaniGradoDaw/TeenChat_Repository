@@ -1,0 +1,107 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Apartados</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-button expand="block" color="secondary" (click)="abrirTab2()">
+      Ir a Login
+    </ion-button>
+    
+    <ion-button expand="block" color="secondary" (click)="abrirTab3()">
+      Ir a Registro
+    </ion-button>
+  
+    <ion-button expand="block" color="secondary" (click)="registros()">
+      Ver registros de la APP
+    </ion-button>
+
+    <ion-button expand="block" color="secondary" (click)="abrirCamara()">
+      Abrir cámara
+    </ion-button>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Inicio</ion-title>
+      <ion-button
+        class="ion-margin-start"
+        style="margin-left: 250px"
+        color="secondary"
+        (click)="abrirdarkmode()"
+      >
+        Ir a Dark Mode
+      </ion-button>
+      <ion-button style="margin-left: 250px" (click)="testLocation()">
+        Probar ubicación
+      </ion-button>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <ion-item>
+      <ion-input
+        label="Escribe algo"
+        [(ngModel)]="texto"
+        placeholder="Texto aquí"
+      ></ion-input>
+    </ion-item>
+    <p>Texto actual: <strong>{{ texto }}</strong></p>
+
+    <br />
+
+    <ion-accordion-group #accordionGroup>
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Primer Acordeón</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">Contenido del primero</div>
+      </ion-accordion>
+
+      <ion-accordion value="second">
+        <ion-item slot="header" color="light">
+          <ion-label>Segundo Acordeón</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">Contenido del segundo</div>
+      </ion-accordion>
+
+      <ion-accordion value="third">
+        <ion-item slot="header" color="light">
+          <ion-label>Tercer Acordeón</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">Contenido del tercero</div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <div style="margin-top: 20px">
+      <ion-button expand="block" (click)="toggleAccordionF()"
+        >Abrir Primero</ion-button
+      >
+      <ion-button expand="block" (click)="toggleAccordionS()"
+        >Abrir Segundo</ion-button
+      >
+      <ion-button expand="block" (click)="toggleAccordionT()"
+        >Abrir Tercero</ion-button
+      >
+    </div>
+
+    <ion-button
+      style="margin-top: 250px"
+      expand="block"
+      color="secondary"
+      (click)="abrirTab2()"
+    >
+      Login
+    </ion-button>
+
+    <ion-button expand="block" color="secondary" (click)="abrirTab3()">
+      Registrarse
+    </ion-button>
+  </ion-content>
+</div>
