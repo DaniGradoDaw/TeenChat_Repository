@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonContent,
@@ -15,8 +15,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { arrowBack, send } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
-import { Conversation } from '../models';
+import { Conversation, Message } from '../models';
 import { ConversationsService } from '../services/conversations.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -36,14 +37,18 @@ import { ConversationsService } from '../services/conversations.service';
     FormsModule,
   ],
 })
-export class ChatPage implements OnInit {
+export class ChatPage implements OnInit, OnDestroy {
   @ViewChild(IonContent) ionContent!: IonContent;
 
   conversation: Conversation | undefined;
+  messages: Message[] = [];
   messageText = '';
 
   arrowBack = arrowBack;
   send = send;
+
+  private messagesSubscription: Subscription | null = null;
+  private conversationSubscription: Subscription | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,21 +65,49 @@ export class ChatPage implements OnInit {
     });
   }
 
-  loadConversation(id: string) {
-    const conversation = this.conversationsService.getConversationById(id);
-    if (conversation) {
-      this.conversation = conversation;
-      setTimeout(() => this.scrollToBottom(), 100);
-    } else {
-      this.router.navigate(['/home']);
+  ngOnDestroy() {
+    if (this.messagesSubscription) {
+      this.messagesSubscription.unsubscribe();
     }
+    if (this.conversationSubscription) {
+      this.conversationSubscription.unsubscribe();
+    }
+  }
+
+  loadConversation(id: string) {
+    // Subscribe to conversation updates (will update header if name changes)
+    if (this.conversationSubscription) {
+      this.conversationSubscription.unsubscribe();
+    }
+    
+    this.conversationSubscription = this.conversationsService.getConversationById(id).subscribe(conversation => {
+      if (conversation) {
+        this.conversation = conversation;
+      } else if (!this.conversation) {
+        // Only navigate to home on the first load if conversation doesn't exist
+        this.router.navigate(['/home']);
+      }
+    });
+    
+    // Subscribe to messages for this conversation (stay subscribed for real-time updates)
+    if (this.messagesSubscription) {
+      this.messagesSubscription.unsubscribe();
+    }
+    
+    this.messagesSubscription = this.conversationsService.getMessagesForConversation(id).subscribe(messages => {
+      this.messages = messages;
+      console.log('Mensajes cargados en tiempo real:', messages);
+      setTimeout(() => this.scrollToBottom(), 100);
+    });
   }
 
   sendMessage() {
     if (this.messageText.trim() && this.conversation) {
       this.conversationsService.addMessage(
         this.conversation.id,
-        this.messageText
+        this.messageText,
+        'currentUser',
+        'Tú'
       );
       this.messageText = '';
       setTimeout(() => this.scrollToBottom(), 100);

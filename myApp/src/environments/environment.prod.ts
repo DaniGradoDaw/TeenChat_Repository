@@ -1,12 +1,13 @@
 export const environment = {
   production: true,
-  firebase: {
-    apiKey: "AIzaSyD8hZRfKmnD2ZuG6di20dOLOtvZG02v0hE",
-    authDomain: "chatprueba-1af9c.firebaseapp.com",
-    projectId: "chatprueba-1af9c",
-    storageBucket: "chatprueba-1af9c.firebasestorage.app",
-    messagingSenderId: "998152102454",
-    appId: "1:998152102454:web:992aa20254f2d6a126ee97",
-    measurementId: "G-1D8NDR77W2"
-  }
+  firebase:{
+  apiKey: "AIzaSyBZ3LtqmUdsbFv-62yluPaza5MNY_pajSU",
+  authDomain: "chat-ia-c05e2.firebaseapp.com",
+  projectId: "chat-ia-c05e2",
+  storageBucket: "chat-ia-c05e2.firebasestorage.app",
+  messagingSenderId: "221322226980",
+  appId: "1:221322226980:web:550a9730b78d948d0197b1",
+  measurementId: "G-FCFXY5MLDY"
+}
+
 };

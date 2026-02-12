@@ -12,5 +12,5 @@ export interface Conversation {
   userName: string;
   lastMessage: string;
   lastMessageTime: Date;
-  messages: Message[];
+  //messages: Message[];
 }

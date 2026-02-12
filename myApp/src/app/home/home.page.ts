@@ -75,6 +75,7 @@ export class HomePage implements OnInit {
   loadConversations() {
     this.conversationsService.conversations$.subscribe((conversations: Conversation[]) => {
       this.conversations = conversations;
+      console.log(' - Conversations:', conversations);
     });
   }
 

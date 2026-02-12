@@ -12,7 +12,7 @@
 <ion-content class="ion-padding">
   <div class="messages-container" *ngIf="conversation">
     <div
-      *ngFor="let message of conversation.messages"
+      *ngFor="let message of messages"
       [ngClass]="{ 'message-sent': message.userId === 'currentUser', 'message-received': message.userId !== 'currentUser' }"
       class="message">
       <div class="message-bubble">
